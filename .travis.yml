@@ -1,0 +1,19 @@
+sudo: required
+services:
+  - docker
+language: go
+go:
+  - '1.10'
+env:
+  global:
+    - secure: 'Ctakan4vkUW4IYmixZz4FL4XDMyuw/XEzW673pw25NN0WKFRm/WsCU0tL4155eXF2tufepbGZVITAuLJFsvT7HJAMUwCNS4zrlFjW47rw6RAFL9V54V+GsGBbf3igscwycMroxk5su/L+TmNfsIEslca7i+xadQaRcYwhITQcmyQ/vfVYHvKHyNMnvr5Gjz35kuhzPyPtAVUcRIV/bcEU5b/hzV8uPeZw2JBgvO/2+0TJEF18BiTRVIM6euYiNHw8VssZh5LL550XAvI1UZwlZcgHW16Suzk9zjovxkGQPKopcbDy7WSnHI59eWY/x06gBs8sXHMsHEmzKtda8tGjJciX+pAJU7JLdCJxuEjtHRr1xQfAdVKmZiAH75Eg83Z6TICqlgYUPZQo0P2X4ixsluJD+pw6urL4QemaCi5SyOFpsFVXDsySDzOsfkdy89CK81LHhFd7u5lTgxqtV79bTPX9Dvyc+xXyXxe8VlrqhH5nXxEvBFDLcQGg7fcw/mqwEIYvT3As9THhB4DOa6hxK9F+bgHYNzsYUU4nG/TBmtqmPPle/w74KxSOZupRJqMBj66gPgBsZwD/Fc/soIQYb9d+l4+GgJCpfVGlY93gbFgC0gq0qiljmxW2l2z/HOGbxG1k/Wld6mLchOjF4Ofy01xWseosFSEotizErvUm2k='
+    - secure: 'guP8vDJEOR122dZgtRlUcZ/V2I83nWLMw2LQW1sgtRko8xzInRzhELW4hv7jp2z9JAWO0R2NvK/KF7tVnRjYx5jj3PL5abhkRBBz5zckkPbLdtL8syBswWhobKREkrhs+FwgwQ4jTb3V1icLJXCruTVJrGvm3ShQZa/4FSOSEyEVy2EKm1yzONH5aoPhH6V/VJe/K5WlBRb9cVmaVkt+sojuZtZSvKAQGTRNar6vYwCfZjN8KfOO60AytdquKFMtlWaxIiLxgRUAXqq87pqMJszKGZ2uXzfq1Pdrks6kZF64vhC65hleDadf+tn+fp1uF1nKM0JSpm2JBH2gUPRe2dnVNsrF0lzgrUSik8FkJoOoOl2q0HwmOKxHMFvnZosxglZ35awcz0j3sQ6fDsyaeS6pqx8kMlciOezBCO+g2vZEVI4i75AjAaG0iB6SktJBCPki1tA8gko502gNaT+/Bp6bN1aZWJBZTM58bRFS4b8WO39SK14cdRt4AVpov5CSOcI1QV/s//ASIyr9akJM9esSh8xbwBpEHkz6xWgdIG5lCVtF8W5kIW+thApSHsii1xTrzRhONtZ/xb9DedU2pC9VQ1stDMhlCmMe7KgLjo97siGu7q6yH7i6rYK+kWj9nz9mVpMvJ6icFfPBWZGWcpfLUDVva1IPBFXOLzEL1+A='
+    - COMMIT=${TRAVIS_COMMIT::8}
+after_success:
+  - echo "$DOCKER_PASSWORD" | docker login -u "$DOCKER_USERNAME" --password-stdin
+  - export REPO=alexandrevilain/postgrest-auth
+  - export TAG=`if [ "$TRAVIS_BRANCH" == "master" ]; then echo "latest"; else echo $TRAVIS_BRANCH ; fi`
+  - docker build -f Dockerfile -t $REPO:$COMMIT .
+  - docker tag $REPO:$COMMIT $REPO:$TAG
+  - docker tag $REPO:$COMMIT $REPO:travis-$TRAVIS_BUILD_NUMBER
+  - docker push $REPO
