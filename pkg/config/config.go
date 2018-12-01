@@ -32,7 +32,7 @@ type DB struct {
 }
 
 // App is the app-related configuration struct
-// App is refering the the whole app where the service is deployed
+// App is referring the the whole app where the service is deployed
 type App struct {
 	Name string `default:""`
 	Link string `default:""`

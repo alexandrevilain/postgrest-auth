@@ -62,6 +62,9 @@ func EnsureDBElementsExists(db *sql.DB, config *config.DB, logger *log.Logger) e
 	}
 	buf := new(bytes.Buffer)
 	err = tmpl.Execute(buf, config)
+	if err != nil {
+		return err
+	}
 	logger.Debugf("Executing the following query: \n %v \n", buf.String())
 	_, err = db.Exec(buf.String())
 	return err
