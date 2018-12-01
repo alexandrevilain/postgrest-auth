@@ -39,7 +39,7 @@ func (h *handler) signin(c echo.Context) error {
 	}
 	jwt, err := user.CreateJWTToken(h.config.DB.Roles.User, h.config.JWT.Secret, h.config.JWT.Exp)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while creating your token")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while creating your token")
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
@@ -54,22 +54,22 @@ func (h *handler) signup(c echo.Context) error {
 		return err
 	}
 	if err := user.HashPassword(); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while hashing your password")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while hashing your password")
 	}
 
 	if err := user.Create(h.db); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while creating your account")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while creating your account")
 	}
 
 	token, err := user.ConfirmToken.Value()
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while creating your account")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while creating your account")
 	}
 
 	confirmLink := fmt.Sprintf(h.config.Links.Confirm, user.ID, token)
 	email, err := h.emails.GenerateConfirmEmail(user.Email, confirmLink)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while creating your account")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while creating your account")
 	}
 
 	h.emailQueue <- mail.EmailSendRequest{
@@ -99,7 +99,7 @@ func (h *handler) confirmAccount(c echo.Context) error {
 	}
 
 	if err := user.UpdateStatus(h.db, true); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while updating your email confirmation")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while updating your email confirmation")
 	}
 
 	return c.JSON(http.StatusCreated, map[string]bool{
@@ -117,18 +117,18 @@ func (h *handler) sendPasswordReset(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusNotFound, "Unable to find your account")
 	}
 	if err := user.CreateResetToken(h.db, h.config.API.ResetToken); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while creating your reset password")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while creating your reset password")
 	}
 
 	token, err := user.ResetPasswordToken.Value()
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while creating your reset password")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while creating your reset password")
 	}
 
 	resetLink := fmt.Sprintf(h.config.Links.Reset, token)
 	email, err := h.emails.GenerateRestePasswordEmail(user.Email, resetLink)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while creating your reset password")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while creating your reset password")
 	}
 
 	h.emailQueue <- mail.EmailSendRequest{
@@ -162,7 +162,7 @@ func (h *handler) resetPassword(c echo.Context) error {
 	}
 
 	if err := user.UpdatePassword(h.db, req.Password); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occured while updating your password")
+		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while updating your password")
 	}
 
 	return c.JSON(http.StatusCreated, map[string]bool{

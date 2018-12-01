@@ -27,10 +27,5 @@ func (s *sender) sendEmail(to, subject, content string) error {
 	m.SetHeader("Subject", subject)
 	m.SetBody("text/html", content)
 
-	if err := s.dialer.DialAndSend(m); err != nil {
-
-		return err
-	}
-
-	return nil
+	return s.dialer.DialAndSend(m)
 }

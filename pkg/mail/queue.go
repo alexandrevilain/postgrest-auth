@@ -42,7 +42,7 @@ func (w *Worker) Start() {
 
 				err := w.sender.sendEmail(work.To, work.Title, work.Content)
 				if err != nil {
-					w.logger.Errorf("An error occured while sending email: %v \n", err.Error())
+					w.logger.Errorf("An error occurred while sending email: %v \n", err.Error())
 				}
 
 			case <-w.QuitChan:
