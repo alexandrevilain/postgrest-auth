@@ -55,7 +55,7 @@ func EnsureDBElementsExists(db *sql.DB, config *config.DB, logger *log.Logger) e
 		WHEN undefined_object THEN RETURN '';
 	END;
 	$$;
-	GRANT EXECUTE ON FUNCTION current_user_id() TO {{ .Roles.User }};
+	GRANT EXECUTE ON FUNCTION auth.current_user_id() TO {{ .Roles.User }};
 	`)
 	if err != nil {
 		return err
