@@ -33,7 +33,7 @@ curl -X POST http://localhost:3001/signin \
 POST /signup
 
 ```bash
-curl -X POST http://localhost:3001/signin \
+curl -X POST http://localhost:3001/signup \
   -H 'Content-Type: application/json' \
   -d '{ "email": "myemail@me.com", "password": "password" }'
 ```
