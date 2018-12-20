@@ -20,7 +20,7 @@ type handler struct {
 }
 
 func (h *handler) signin(c echo.Context) error {
-	var user models.User
+	var user model.User
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
@@ -49,9 +49,13 @@ func (h *handler) signin(c echo.Context) error {
 }
 
 func (h *handler) signup(c echo.Context) error {
-	var user models.User
+	var user model.User
 	if err := c.Bind(&user); err != nil {
 		return err
+	}
+	ok := user.CheckEmailDomain(h.config.API.AllowedDomains)
+	if !ok {
+		return echo.NewHTTPError(http.StatusBadRequest, "You're not allowed to create an account with the provied email address")
 	}
 	if err := user.HashPassword(); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred while hashing your password")
@@ -85,7 +89,7 @@ func (h *handler) signup(c echo.Context) error {
 }
 
 func (h *handler) confirmAccount(c echo.Context) error {
-	var user models.User
+	var user model.User
 	user.ID = c.Param("id")
 	if err := user.FindByID(h.db); err != nil {
 		return echo.NewHTTPError(http.StatusNotFound, "Unable to find your account")
@@ -109,7 +113,7 @@ func (h *handler) confirmAccount(c echo.Context) error {
 
 // When a user ask for passwork reset
 func (h *handler) sendPasswordReset(c echo.Context) error {
-	var user models.User
+	var user model.User
 	if err := c.Bind(&user); err != nil {
 		return err
 	}
@@ -155,7 +159,7 @@ func (h *handler) resetPassword(c echo.Context) error {
 		return err
 	}
 
-	var user models.User
+	var user model.User
 	err := user.ValidateResetToken(h.db, h.config.API.ResetToken, c.Param("token"))
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, "Wrong reset token")

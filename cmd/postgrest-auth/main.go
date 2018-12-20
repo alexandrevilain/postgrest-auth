@@ -36,7 +36,7 @@ func main() {
 		logger.Fatalf("Unable to connect to database: %v", err.Error())
 	}
 
-	err = models.EnsureDBElementsExists(db, &config.DB, logger)
+	err = model.EnsureDBElementsExists(db, &config.DB, logger)
 	if err != nil {
 		logger.Fatalf("Unable to create base elements on database: %v", err.Error())
 	}

@@ -1,7 +1,8 @@
-package models
+package model
 
 import (
 	"database/sql"
+	"strings"
 	"time"
 
 	"github.com/dchest/passwordreset"
@@ -89,6 +90,24 @@ func (u *User) HashPassword() error {
 func (u *User) CheckPassword(password string) bool {
 	err := bcrypt.CompareHashAndPassword([]byte(u.Password), []byte(password))
 	return err == nil
+}
+
+// CheckEmailDomain checks if the user's email address matches the provied domains list
+func (u *User) CheckEmailDomain(domains []string) bool {
+	if len(domains) == 0 {
+		return true
+	}
+	splitedEmail := strings.Split(u.Email, "@")
+	if len(splitedEmail) != 2 {
+		return false
+	}
+	emailDomain := splitedEmail[1]
+	for _, domain := range domains {
+		if emailDomain == domain {
+			return true
+		}
+	}
+	return false
 }
 
 // CreateJWTToken creates a new JWT token for the user

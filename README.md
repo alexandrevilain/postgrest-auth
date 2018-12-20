@@ -85,6 +85,7 @@ Many environment variables are availables to custom your postgrest-auth instance
 | POSTGREST_AUTH_EMAIL_PORT          |                                                                                                                                                  | X                                    |
 | POSTGREST_AUTH_EMAIL_AUTH_USER     |                                                                                                                                                  | X                                    |
 | POSTGREST_AUTH_EMAIL_AUTH_PASS     |                                                                                                                                                  | X                                    |
+| POSTGREST_AUTH_API_ALLOWEDDOMAINS  | The list of allowed email domains for signup (comma-separated)                                                                                   | X                                    |
 
 ## Integration with postgreSQL
 
