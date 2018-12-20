@@ -6,8 +6,9 @@ import (
 
 // API is the api-related configuration struct
 type API struct {
-	Port       int    `default:"3001"`
-	ResetToken string `default:"supersecret"`
+	Port           int    `default:"3001"`
+	ResetToken     string `default:"supersecret"`
+	AllowedDomains []string
 }
 
 // Links is the links-related configuration struct
