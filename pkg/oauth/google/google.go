@@ -51,13 +51,8 @@ func (provider *googleProvider) GetUserInfo(payload *oauth.Oauth2Payload, oauthS
 		return user, fmt.Errorf("An error occurred, maybe your haven't check the right scopes  %s", err.Error())
 	}
 
-	user = model.User{
-		Email:     googleUser.Email,
-		Confirmed: googleUser.VerifiedEmail,
-		Password:  user.GeneratePassword(12),
-	}
-	if err := user.HashPassword(); err != nil {
-		return user, fmt.Errorf("An error occurred while hashing your password  %s", err.Error())
-	}
+	user.Email = googleUser.Email
+	user.Confirmed = googleUser.VerifiedEmail
+
 	return user, nil
 }

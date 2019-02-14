@@ -9,8 +9,6 @@ type Oauth2Payload struct {
 	State string `json:"state"`
 	Token string `json:"token"`
 }
-type provider struct {
-}
 
 //Provider give you all providers functions for oauth2
 type Provider interface {

@@ -7,12 +7,12 @@ import (
 
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth"
 
+	"github.com/labstack/echo"
 	"github.com/alexandrevilain/postgrest-auth/pkg/config"
 	"github.com/alexandrevilain/postgrest-auth/pkg/mail"
 	"github.com/alexandrevilain/postgrest-auth/pkg/model"
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/facebook"
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/google"
-	"github.com/labstack/echo"
 )
 
 type handler struct {
@@ -184,9 +184,6 @@ func (h *handler) signinWithProvider(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred with your payload")
 	}
 	provider := c.Param("provider")
-	if provider == "" {
-		return echo.NewHTTPError(http.StatusInternalServerError, "An error occurred with your provider route")
-	}
 	var p oauth.Provider
 	switch provider {
 	case "google":
@@ -199,6 +196,9 @@ func (h *handler) signinWithProvider(c echo.Context) error {
 	user, err := p.GetUserInfo(payload, h.config.OAuth2.State)
 	if err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
+	}
+	if err := user.CreateRandomPassword(12); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating a random password %s", err.Error()))
 	}
 	if err := user.Create(h.db); err != nil {
 		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your account %s", err.Error()))

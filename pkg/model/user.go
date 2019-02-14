@@ -40,7 +40,7 @@ func (u *User) Create(db *sql.DB) error {
 }
 
 // GeneratePassword generate random password
-func (u *User) GeneratePassword(length int) string {
+func (u *User) CreateRandomPassword(length int) error {
 	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
 	seededRand := rand.New(
 		rand.NewSource(time.Now().UnixNano()))
@@ -48,7 +48,8 @@ func (u *User) GeneratePassword(length int) string {
 	for i := range b {
 		b[i] = charset[seededRand.Intn(len(charset))]
 	}
-	return string(b)
+	u.Password = string(b)
+	return u.HashPassword()
 }
 
 // CreateResetToken create a random reset token
