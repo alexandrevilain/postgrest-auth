@@ -5,14 +5,14 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/tarektouati/postgrest-auth/pkg/oauth"
+	"github.com/alexandrevilain/postgrest-auth/pkg/oauth"
 
 	"github.com/labstack/echo"
-	"github.com/tarektouati/postgrest-auth/pkg/config"
-	"github.com/tarektouati/postgrest-auth/pkg/mail"
-	"github.com/tarektouati/postgrest-auth/pkg/model"
-	"github.com/tarektouati/postgrest-auth/pkg/oauth/facebook"
-	"github.com/tarektouati/postgrest-auth/pkg/oauth/google"
+	"github.com/alexandrevilain/postgrest-auth/pkg/config"
+	"github.com/alexandrevilain/postgrest-auth/pkg/mail"
+	"github.com/alexandrevilain/postgrest-auth/pkg/model"
+	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/facebook"
+	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/google"
 )
 
 type handler struct {

@@ -10,8 +10,8 @@ import (
 	"math/rand"
 	"time"
 
-	"github.com/tarektouati/postgrest-auth/pkg/config"
-	"github.com/tarektouati/postgrest-auth/pkg/model"
+	"github.com/alexandrevilain/postgrest-auth/pkg/config"
+	"github.com/alexandrevilain/postgrest-auth/pkg/model"
 )
 
 // Oauth2Payload payload to retrive for google
