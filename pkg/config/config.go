@@ -17,7 +17,7 @@ type Links struct {
 	Confirm string `default:"http://localhost/confirm/%v?token=%v"`
 }
 
-// OAuth2 is google config for oauth2 with google
+// OAuth2 State is the same string that was defined to retrive the access token
 type OAuth2 struct {
 	State string `default:"random-state"`
 }

@@ -194,13 +194,21 @@ func (h *handler) signinWithProvider(c echo.Context) error {
 	case "facebook":
 		p = facebook.New()
 	default:
-		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("%s provider not supported", provider))
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("%s provider is not supported", provider))
 	}
-	user, token, err := p.GetUserInfo(payload, h.config.OAuth2.State, h.config, h.db)
+	user, err := p.GetUserInfo(payload, h.config.OAuth2.State)
 	if err != nil {
 		fmt.Println(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
+	if err := user.Create(h.db); err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your account %s", err.Error()))
+	}
+	token, err := user.CreateJWTToken(h.config.DB.Roles.User, h.config.JWT.Secret, h.config.JWT.Exp)
+	if err != nil {
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your jwt token %s", err.Error()))
+	}
+
 	return c.JSON(http.StatusCreated, map[string]interface{}{
 		"user":  user.GetMapRepresentation(),
 		"token": token,
