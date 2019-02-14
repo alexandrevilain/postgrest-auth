@@ -7,12 +7,12 @@ import (
 
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth"
 
-	"github.com/labstack/echo"
 	"github.com/alexandrevilain/postgrest-auth/pkg/config"
 	"github.com/alexandrevilain/postgrest-auth/pkg/mail"
 	"github.com/alexandrevilain/postgrest-auth/pkg/model"
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/facebook"
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/google"
+	"github.com/labstack/echo"
 )
 
 type handler struct {
@@ -198,14 +198,14 @@ func (h *handler) signinWithProvider(c echo.Context) error {
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	if err := user.CreateRandomPassword(12); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating a random password %s", err.Error()))
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your account :  %s", err.Error()))
 	}
 	if err := user.Create(h.db); err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your account %s", err.Error()))
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your account:  %s", err.Error()))
 	}
 	token, err := user.CreateJWTToken(h.config.DB.Roles.User, h.config.JWT.Secret, h.config.JWT.Exp)
 	if err != nil {
-		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your jwt token %s", err.Error()))
+		return echo.NewHTTPError(http.StatusInternalServerError, fmt.Sprintf("An error occurred while creating your jwt token:  %s", err.Error()))
 	}
 
 	return c.JSON(http.StatusCreated, map[string]interface{}{
