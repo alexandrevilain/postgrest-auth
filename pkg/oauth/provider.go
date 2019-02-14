@@ -1,9 +1,6 @@
 package oauth
 
 import (
-	"math/rand"
-	"time"
-
 	"github.com/alexandrevilain/postgrest-auth/pkg/model"
 )
 
@@ -13,18 +10,6 @@ type Oauth2Payload struct {
 	Token string `json:"token"`
 }
 type provider struct {
-}
-
-// GenreatePassword generate random password
-func GenreatePassword(length int) string {
-	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
-	seededRand := rand.New(
-		rand.NewSource(time.Now().UnixNano()))
-	b := make([]byte, length)
-	for i := range b {
-		b[i] = charset[seededRand.Intn(len(charset))]
-	}
-	return string(b)
 }
 
 //Provider give you all providers functions for oauth2

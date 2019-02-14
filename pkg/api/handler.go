@@ -7,12 +7,12 @@ import (
 
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth"
 
-	"github.com/labstack/echo"
 	"github.com/alexandrevilain/postgrest-auth/pkg/config"
 	"github.com/alexandrevilain/postgrest-auth/pkg/mail"
 	"github.com/alexandrevilain/postgrest-auth/pkg/model"
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/facebook"
 	"github.com/alexandrevilain/postgrest-auth/pkg/oauth/google"
+	"github.com/labstack/echo"
 )
 
 type handler struct {
@@ -198,7 +198,6 @@ func (h *handler) signinWithProvider(c echo.Context) error {
 	}
 	user, err := p.GetUserInfo(payload, h.config.OAuth2.State)
 	if err != nil {
-		fmt.Println(err)
 		return echo.NewHTTPError(http.StatusInternalServerError, err.Error())
 	}
 	if err := user.Create(h.db); err != nil {

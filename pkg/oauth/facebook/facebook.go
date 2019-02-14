@@ -51,11 +51,10 @@ func (provider *facebookProvider) GetUserInfo(payload *oauth.Oauth2Payload, oaut
 		return user, fmt.Errorf("An error occurred, maybe your haven't check the right scopes  %s", err.Error())
 	}
 
-	userRandomPassword := oauth.GenreatePassword(12)
 	user = model.User{
 		Email:     facebookUser.Email,
 		Confirmed: true,
-		Password:  userRandomPassword,
+		Password:  user.GeneratePassword(12),
 	}
 	if err := user.HashPassword(); err != nil {
 		return user, fmt.Errorf("An error occurred while hashing your password  %s", err.Error())
