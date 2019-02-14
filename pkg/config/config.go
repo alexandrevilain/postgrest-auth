@@ -17,6 +17,11 @@ type Links struct {
 	Confirm string `default:"http://localhost/confirm/%v?token=%v"`
 }
 
+// OAuth2 State is the same string that was defined to retrive the access token
+type OAuth2 struct {
+	State string `default:"random-state"`
+}
+
 // JWT is the jwt-related configuration struct
 type JWT struct {
 	Exp    int    `default:"24"`
@@ -53,12 +58,13 @@ type Email struct {
 
 // Config represents the global config of the service
 type Config struct {
-	API   API
-	DB    DB
-	Email Email
-	JWT   JWT
-	Links Links
-	App   App
+	API    API
+	DB     DB
+	Email  Email
+	JWT    JWT
+	Links  Links
+	App    App
+	OAuth2 OAuth2
 }
 
 // LoadFromEnv loads the configuration file and populate the Config struct

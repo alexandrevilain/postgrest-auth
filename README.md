@@ -62,6 +62,34 @@ curl -X POST http://localhost:3001/reset/{token} \
   -d '{ "password": "mynewpassword" }'
 ```
 
+#### Google Sign in
+
+POST /provider/google
+
+```bash
+curl -X POST \
+  http://localhost:3001/provider/google \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"token": "<google access token>",
+	"state":"<state defined in config>"
+}'
+```
+
+#### Facebook Sign in
+
+POST /provider/facebook
+
+```bash
+curl -X POST \
+  http://localhost:3001/provider/facebook \
+  -H 'Content-Type: application/json' \
+  -d '{
+	"token": "<facebook access token>",
+	"state":"<state defined in config>"
+}'
+```
+
 ## Configuration
 
 Many environment variables are availables to custom your postgrest-auth instance:
@@ -86,6 +114,7 @@ Many environment variables are availables to custom your postgrest-auth instance
 | POSTGREST_AUTH_EMAIL_AUTH_USER     |                                                                                                                                                  | X                                    |
 | POSTGREST_AUTH_EMAIL_AUTH_PASS     |                                                                                                                                                  | X                                    |
 | POSTGREST_AUTH_API_ALLOWEDDOMAINS  | The list of allowed email domains for signup (comma-separated)                                                                                   | X                                    |
+| POSTGREST_AUTH_OAUTH2_STATE        | Same state that you defined whene retrieving your access token                                                                                   | random-state                         |
 
 ## Integration with postgreSQL
 
@@ -101,7 +130,6 @@ CREATE POLICY questions_update ON questions FOR UPDATE
 ## TODO
 
 - Unit tests
-- Support oAuth2
 
 ## Contributing
 

@@ -1,8 +1,8 @@
 package mail
 
 import (
-	"github.com/alexandrevilain/postgrest-auth/pkg/config"
 	"github.com/labstack/gommon/log"
+	"github.com/alexandrevilain/postgrest-auth/pkg/config"
 )
 
 // EmailSendRequest represents a mail sending request

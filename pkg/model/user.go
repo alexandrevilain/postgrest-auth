@@ -2,6 +2,7 @@ package model
 
 import (
 	"database/sql"
+	"math/rand"
 	"strings"
 	"time"
 
@@ -36,6 +37,19 @@ func (u *User) Create(db *sql.DB) error {
 	u.ID = uuid.NewV4().String()
 	u.ConfirmToken = sql.NullString{String: uuid.NewV4().String(), Valid: true}
 	return db.QueryRow("INSERT INTO auth.users(id, email, password, confirmToken) VALUES($1, $2, $3, $4) RETURNING id", u.ID, u.Email, u.Password, u.ConfirmToken).Scan(&u.ID)
+}
+
+// GeneratePassword generate random password
+func (u *User) CreateRandomPassword(length int) error {
+	const charset = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	seededRand := rand.New(
+		rand.NewSource(time.Now().UnixNano()))
+	b := make([]byte, length)
+	for i := range b {
+		b[i] = charset[seededRand.Intn(len(charset))]
+	}
+	u.Password = string(b)
+	return u.HashPassword()
 }
 
 // CreateResetToken create a random reset token

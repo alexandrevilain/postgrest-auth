@@ -18,6 +18,19 @@
   version = "v2.16.0"
 
 [[projects]]
+  branch = "master"
+  digest = "1:44cf1ca14c9d8a8a168c34edb6ae88bb4e5bca6660875ac523d2ab5a2b007825"
+  name = "github.com/alexandrevilain/postgrest-auth"
+  packages = [
+    "pkg/api",
+    "pkg/config",
+    "pkg/mail",
+    "pkg/model",
+  ]
+  pruneopts = "UT"
+  revision = "e4e71cee6f0c63f05ff6236a0fadd9e751dca364"
+
+[[projects]]
   digest = "1:10bb36acbe3beb4e529f2711e02c66335adc17dffaceb1d6ceca9554c2d8baa0"
   name = "github.com/aokoli/goutils"
   packages = ["."]
@@ -264,6 +277,10 @@
   analyzer-name = "dep"
   analyzer-version = 1
   input-imports = [
+    "github.com/alexandrevilain/postgrest-auth/pkg/api",
+    "github.com/alexandrevilain/postgrest-auth/pkg/config",
+    "github.com/alexandrevilain/postgrest-auth/pkg/mail",
+    "github.com/alexandrevilain/postgrest-auth/pkg/model",
     "github.com/dchest/passwordreset",
     "github.com/dgrijalva/jwt-go",
     "github.com/kelseyhightower/envconfig",

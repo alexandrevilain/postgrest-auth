@@ -7,13 +7,11 @@ import (
 	"os/signal"
 	"time"
 
-	"github.com/alexandrevilain/postgrest-auth/pkg/model"
-
 	"github.com/alexandrevilain/postgrest-auth/pkg/api"
 	"github.com/alexandrevilain/postgrest-auth/pkg/config"
 	"github.com/alexandrevilain/postgrest-auth/pkg/mail"
+	"github.com/alexandrevilain/postgrest-auth/pkg/model"
 	"github.com/labstack/gommon/log"
-
 	_ "github.com/lib/pq"
 )
 
