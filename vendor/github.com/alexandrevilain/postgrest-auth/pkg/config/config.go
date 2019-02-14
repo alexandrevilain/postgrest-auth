@@ -17,11 +17,6 @@ type Links struct {
 	Confirm string `default:"http://localhost/confirm/%v?token=%v"`
 }
 
-// OAuth2 is google config for oauth2 with google
-type OAuth2 struct {
-	State string `default:"random-state"`
-}
-
 // JWT is the jwt-related configuration struct
 type JWT struct {
 	Exp    int    `default:"24"`
@@ -58,13 +53,12 @@ type Email struct {
 
 // Config represents the global config of the service
 type Config struct {
-	API    API
-	DB     DB
-	Email  Email
-	JWT    JWT
-	Links  Links
-	App    App
-	OAuth2 OAuth2
+	API   API
+	DB    DB
+	Email Email
+	JWT   JWT
+	Links Links
+	App   App
 }
 
 // LoadFromEnv loads the configuration file and populate the Config struct

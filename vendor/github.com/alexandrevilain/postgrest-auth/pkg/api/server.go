@@ -5,11 +5,11 @@ import (
 	"database/sql"
 	"fmt"
 
+	"github.com/alexandrevilain/postgrest-auth/pkg/config"
+	"github.com/alexandrevilain/postgrest-auth/pkg/mail"
 	"github.com/labstack/echo"
 	"github.com/labstack/echo/middleware"
 	"github.com/labstack/gommon/log"
-	"github.com/tarektouati/postgrest-auth/pkg/config"
-	"github.com/tarektouati/postgrest-auth/pkg/mail"
 )
 
 var server *echo.Echo
@@ -38,7 +38,6 @@ func Run(config *config.Config, db *sql.DB, emailQueue chan mail.EmailSendReques
 	server.GET("/confirm/:id", h.confirmAccount)
 	server.POST("/reset", h.sendPasswordReset)
 	server.POST("/reset/:token", h.resetPassword)
-	server.POST("/provider/:provider", h.signinWithProvider)
 
 	// Run our server in a goroutine so that it doesn't block.
 	go func() {
